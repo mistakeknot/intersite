@@ -4,8 +4,9 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  stats?: { projects: number; plugins: number; experiments: number };
 }
-const { title, description = "General Systems Ventures" } = Astro.props;
+const { title, description = "General Systems Ventures", stats } = Astro.props;
 ---
 <html lang="en" class="dark">
 <head>
@@ -18,7 +19,22 @@ const { title, description = "General Systems Ventures" } = Astro.props;
 <body class="bg-[var(--color-bg)] text-[var(--color-text)] min-h-screen font-sans antialiased">
   <nav class="border-b border-[var(--color-border)] px-6 py-4">
     <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <a href="/" class="font-mono text-sm tracking-wider uppercase text-[var(--color-text-muted)] hover:text-[var(--color-text)]">GSV</a>
+      <div class="flex items-center gap-6">
+        <a href="/" class="font-mono text-sm tracking-wider uppercase text-[var(--color-text-muted)] hover:text-[var(--color-text)]">General Systems Ventures</a>
+        {stats && (
+          <div class="hidden sm:flex gap-4 text-xs text-[var(--color-text-muted)] font-mono">
+            <a href="/projects/" class="hover:text-[var(--color-text)] transition-colors">
+              <span class="text-[var(--color-text)]">{stats.projects}</span> projects
+            </a>
+            <a href="/projects/sylveste/plugins/" class="hover:text-[var(--color-text)] transition-colors">
+              <span class="text-[var(--color-text)]">{stats.plugins}</span> plugins
+            </a>
+            <a href="/experiments/" class="hover:text-[var(--color-text)] transition-colors">
+              <span class="text-[var(--color-text)]">{stats.experiments}</span> experiments
+            </a>
+          </div>
+        )}
+      </div>
       <div class="flex gap-6 text-sm text-[var(--color-text-muted)]">
         <a href="/projects/" class="hover:text-[var(--color-text)]">Projects</a>
         <a href="/experiments/" class="hover:text-[var(--color-text)]">Experiments</a>

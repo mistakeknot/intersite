@@ -11,28 +11,14 @@ const allExperimentsDraft = await getCollection('experiments');
 const plugins = await getAllPlugins();
 const latestExperiment = experiments[0];
 
-// Use total counts (including drafts) for the stats — shows the scope of the lab
-const projectCount = allProjectsDraft.length;
-const pluginCount = plugins.length;
-const experimentCount = allExperimentsDraft.length;
+const stats = {
+  projects: allProjectsDraft.length,
+  plugins: plugins.length,
+  experiments: allExperimentsDraft.length,
+};
 ---
-<Base title="General Systems Ventures">
-  <section class="mb-20 pt-8">
-    <h1 class="text-2xl font-light font-mono tracking-wide mb-6">General Systems Ventures</h1>
-    <div class="flex gap-8 text-sm text-[var(--color-text-muted)] font-mono">
-      <a href="/projects/" class="hover:text-[var(--color-text)] transition-colors">
-        <span class="text-[var(--color-text)] text-lg font-light">{projectCount}</span> projects
-      </a>
-      <a href="/projects/sylveste/plugins/" class="hover:text-[var(--color-text)] transition-colors">
-        <span class="text-[var(--color-text)] text-lg font-light">{pluginCount}</span> plugins
-      </a>
-      <a href="/experiments/" class="hover:text-[var(--color-text)] transition-colors">
-        <span class="text-[var(--color-text)] text-lg font-light">{experimentCount}</span> experiments
-      </a>
-    </div>
-  </section>
-
-  <section class="mb-20">
+<Base title="General Systems Ventures" stats={stats}>
+  <section class="mb-16">
     <ProjectGraph />
   </section>
 
