@@ -1,3 +1,68 @@
 ---
+import Base from '../layouts/Base.astro';
+import { getFeaturedProjects, getPublishedProjects, getPublishedExperiments, getAllPlugins } from '../lib/content';
+
+const featured = await getFeaturedProjects();
+const allProjects = await getPublishedProjects();
+const experiments = await getPublishedExperiments();
+const plugins = await getAllPlugins();
+const latestExperiment = experiments[0];
 ---
-<html lang="en"><head><title>GSV</title></head><body><p>GSV</p></body></html>
+<Base title="General Systems Ventures">
+  <section class="mb-16">
+    <p class="text-[var(--color-text-muted)] font-mono text-sm mb-2 uppercase tracking-wider">General Systems Ventures</p>
+    <h1 class="text-3xl font-light mb-4 leading-tight">Notes from a frontier of human/machine comparative advantage</h1>
+    <div class="flex gap-6 text-sm text-[var(--color-text-muted)] font-mono">
+      <span>{allProjects.length} projects</span>
+      <span>{plugins.length} plugins</span>
+      <span>{experiments.length} experiments</span>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="mb-16">
+      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">Featured</h2>
+      <div class="grid gap-4">
+        {featured.map((p) => (
+          <a href={`/projects/${p.id}/`} class="block border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <h3 class="text-lg font-medium">{p.data.name}</h3>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-[var(--color-surface)] text-[var(--color-text-muted)]">{p.data.status}</span>
+            </div>
+            <p class="text-[var(--color-text-muted)] text-sm">{p.data.tagline || p.data.description}</p>
+            {p.data.themes.length > 0 && (
+              <div class="flex gap-2 mt-3">
+                {p.data.themes.map((t: string) => (
+                  <span class="text-xs font-mono text-[var(--color-text-muted)]">#{t}</span>
+                ))}
+              </div>
+            )}
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {featured.length === 0 && allProjects.length === 0 && (
+    <section class="mb-16 border border-[var(--color-border)] rounded-lg p-8 text-center">
+      <p class="text-[var(--color-text-muted)]">Projects are published here as they clear editorial review</p>
+    </section>
+  )}
+
+  {latestExperiment && (
+    <section class="mb-16">
+      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">Latest Experiment</h2>
+      <a href={`/experiments/${latestExperiment.id}/`} class="block border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
+        <div class="flex items-center gap-3 mb-2">
+          <h3 class="font-medium">{latestExperiment.data.title}</h3>
+          <span class={`text-xs font-mono px-2 py-0.5 rounded ${
+            latestExperiment.data.result === 'success' ? 'bg-green-900/30 text-green-400' :
+            latestExperiment.data.result === 'failure' ? 'bg-red-900/30 text-red-400' :
+            'bg-yellow-900/30 text-yellow-400'
+          }`}>{latestExperiment.data.result}</span>
+        </div>
+        <p class="text-[var(--color-text-muted)] text-sm">{latestExperiment.data.summary}</p>
+      </a>
+    </section>
+  )}
+</Base>
