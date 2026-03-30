@@ -7,7 +7,8 @@ lineage: "Transparent audio enhancement — Core Audio processing that improves 
 featured: false
 tagline: "macOS Core Audio enhancement"
 description: "A macOS audio enhancement application built on Core Audio. Enozo applies real-time audio processing to system audio output, improving clarity and spatial characteristics without requiring manual configuration or per-app setup."
-pipeline_state: raw_draft
+pipeline_state: published
+mk_approved_at: "2026-03-30T00:00:00Z"
 ---
 
 Enozo hooks into macOS Core Audio to apply transparent audio processing at the system level. The goal is enhancement that you notice only by its absence — better spatial audio, clearer dialogue, and consistent levels across applications without requiring the user to think about audio settings.
