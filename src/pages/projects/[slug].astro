@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import ThemeTag from '../../components/ThemeTag.astro';
+import { render } from 'astro:content';
+import { getPublishedProjects } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+  return projects.map((p) => ({
+    params: { slug: p.id },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<Base title={project.data.name} description={project.data.tagline || project.data.description}>
+  <div class="mb-8">
+    <a href="/projects/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] font-mono">&larr; Projects</a>
+  </div>
+
+  <header class="mb-8">
+    <div class="flex items-center gap-3 mb-2">
+      <h1 class="text-2xl font-light">{project.data.name}</h1>
+      <StatusBadge status={project.data.status} />
+    </div>
+    {project.data.tagline && (
+      <p class="text-lg text-[var(--color-text-muted)] mb-4">{project.data.tagline}</p>
+    )}
+    <p class="text-[var(--color-text-muted)]">{project.data.description}</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-sm">
+    {project.data.lineage && (
+      <div>
+        <span class="font-mono text-[var(--color-text-muted)] text-xs uppercase">Lineage</span>
+        <p class="mt-1">{project.data.lineage}</p>
+      </div>
+    )}
+    {project.data.themes.length > 0 && (
+      <div>
+        <span class="font-mono text-[var(--color-text-muted)] text-xs uppercase">Themes</span>
+        <div class="flex gap-2 flex-wrap mt-1">
+          {project.data.themes.map((t: string) => <ThemeTag theme={t} />)}
+        </div>
+      </div>
+    )}
+    {project.data.repo && (
+      <div>
+        <span class="font-mono text-[var(--color-text-muted)] text-xs uppercase">Repository</span>
+        <a href={project.data.repo} class="block mt-1 text-[var(--color-accent)] hover:underline font-mono text-xs" target="_blank" rel="noopener">{project.data.repo.replace('https://github.com/', '')}</a>
+      </div>
+    )}
+  </div>
+
+  {project.data.status === "dormant" && project.data.what_was_learned && (
+    <div class="border border-[var(--color-border)] rounded-lg p-4 mb-8 bg-[var(--color-surface)]">
+      <span class="font-mono text-xs text-[var(--color-text-muted)] uppercase">What this explored</span>
+      <p class="mt-1 text-sm">{project.data.what_was_learned}</p>
+    </div>
+  )}
+
+  <article class="prose prose-invert prose-zinc max-w-none">
+    <Content />
+  </article>
+</Base>

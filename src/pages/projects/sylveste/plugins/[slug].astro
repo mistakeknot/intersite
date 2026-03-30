@@ -1,0 +1,32 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getAllPlugins } from '../../../../lib/content';
+
+export async function getStaticPaths() {
+  const plugins = await getAllPlugins();
+  return plugins
+    .filter((p) => p.data.notable)
+    .map((p) => ({
+      params: { slug: p.id },
+      props: { plugin: p },
+    }));
+}
+
+const { plugin } = Astro.props;
+const { Content } = await render(plugin);
+---
+<Base title={plugin.data.name} description={plugin.data.description}>
+  <div class="mb-8">
+    <a href="/projects/sylveste/plugins/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] font-mono">&larr; Plugins</a>
+  </div>
+
+  <header class="mb-8">
+    <h1 class="text-2xl font-light font-mono">{plugin.data.name}</h1>
+    <p class="text-[var(--color-text-muted)] mt-2">{plugin.data.description}</p>
+  </header>
+
+  <article class="prose prose-invert prose-zinc max-w-none">
+    <Content />
+  </article>
+</Base>

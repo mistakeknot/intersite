@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResultBadge from '../../components/ResultBadge.astro';
+import { getPublishedExperiments } from '../../lib/content';
+
+const experiments = await getPublishedExperiments();
+---
+<Base title="Experiments" description="Lab notebook — things tried, results observed">
+  <h1 class="text-2xl font-light mb-8">Experiments</h1>
+
+  {experiments.length === 0 && (
+    <section class="border border-[var(--color-border)] rounded-lg p-8 text-center">
+      <p class="text-[var(--color-text-muted)]">Experiments are published here as they complete</p>
+    </section>
+  )}
+
+  {experiments.length > 0 && (
+    <div class="grid gap-4">
+      {experiments.map((e) => (
+        <a href={`/experiments/${e.id}/`} class="block border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <h2 class="font-medium">{e.data.title}</h2>
+            <ResultBadge result={e.data.result} />
+          </div>
+          <p class="text-[var(--color-text-muted)] text-sm mb-2">{e.data.summary}</p>
+          <div class="flex items-center gap-4 text-xs text-[var(--color-text-muted)] font-mono">
+            <time>{e.data.date.toISOString().split('T')[0]}</time>
+            {e.data.tags.length > 0 && (
+              <div class="flex gap-2">
+                {e.data.tags.map((t: string) => <span>#{t}</span>)}
+              </div>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+  )}
+</Base>

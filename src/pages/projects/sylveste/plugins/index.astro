@@ -1,0 +1,67 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { getAllPlugins } from '../../../../lib/content';
+
+const plugins = await getAllPlugins();
+const notable = plugins.filter((p) => p.data.notable);
+const others = plugins.filter((p) => !p.data.notable);
+---
+<Base title="Interverse Plugins" description="Plugin ecosystem powering Sylveste">
+  <div class="mb-8">
+    <a href="/projects/sylveste/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] font-mono">&larr; Sylveste</a>
+  </div>
+
+  <header class="mb-8">
+    <h1 class="text-2xl font-light mb-2">Interverse Plugins</h1>
+    <p class="text-[var(--color-text-muted)] text-sm">{plugins.length} plugins in the ecosystem</p>
+  </header>
+
+  <div class="mb-8">
+    <input
+      type="text"
+      id="plugin-search"
+      placeholder="Search plugins..."
+      class="w-full bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-4 py-2 text-sm text-[var(--color-text)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]"
+    />
+  </div>
+
+  {notable.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">Notable</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="notable-plugins">
+        {notable.map((p) => (
+          <a href={`/projects/sylveste/plugins/${p.id}/`} class="plugin-card block border border-[var(--color-border)] rounded-lg p-4 hover:border-[var(--color-accent)] transition-colors" data-name={p.data.name} data-desc={p.data.description}>
+            <h3 class="font-medium text-sm font-mono mb-1">{p.data.name}</h3>
+            <p class="text-[var(--color-text-muted)] text-xs">{p.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section>
+    <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">All Plugins</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="all-plugins">
+      {[...notable, ...others].map((p) => (
+        <div class="plugin-card border border-[var(--color-border)] rounded-lg p-3" data-name={p.data.name} data-desc={p.data.description}>
+          <h3 class="font-medium text-xs font-mono">{p.data.name}</h3>
+          <p class="text-[var(--color-text-muted)] text-xs mt-1 line-clamp-2">{p.data.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const input = document.getElementById('plugin-search') as HTMLInputElement;
+  const cards = document.querySelectorAll('.plugin-card');
+  input?.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+    cards.forEach((card) => {
+      const el = card as HTMLElement;
+      const name = el.dataset.name?.toLowerCase() || '';
+      const desc = el.dataset.desc?.toLowerCase() || '';
+      el.style.display = name.includes(q) || desc.includes(q) ? '' : 'none';
+    });
+  });
+</script>

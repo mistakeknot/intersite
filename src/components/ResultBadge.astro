@@ -1,0 +1,12 @@
+---
+interface Props {
+  result: "success" | "failure" | "inconclusive";
+}
+const { result } = Astro.props;
+const colors = {
+  success: "bg-green-900/30 text-green-400",
+  failure: "bg-red-900/30 text-red-400",
+  inconclusive: "bg-yellow-900/30 text-yellow-400",
+};
+---
+<span class={`text-xs font-mono px-2 py-0.5 rounded ${colors[result]}`}>{result}</span>

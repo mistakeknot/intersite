@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import ThemeTag from '../../components/ThemeTag.astro';
+import { getPublishedProjects } from '../../lib/content';
+
+const allProjects = await getPublishedProjects();
+const featured = allProjects.filter((p) => p.data.featured);
+const roster = allProjects.filter((p) => !p.data.featured && p.data.status !== "dormant");
+const dormant = allProjects.filter((p) => p.data.status === "dormant");
+---
+<Base title="Projects" description="Portfolio of GSV projects across autonomous development, generative media, and infrastructure tooling">
+  <h1 class="text-2xl font-light mb-8">Projects</h1>
+
+  {allProjects.length === 0 && (
+    <section class="border border-[var(--color-border)] rounded-lg p-8 text-center">
+      <p class="text-[var(--color-text-muted)]">Projects are published here as they clear editorial review</p>
+    </section>
+  )}
+
+  {featured.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">Featured</h2>
+      <div class="grid gap-4">
+        {featured.map((p) => (
+          <a href={`/projects/${p.id}/`} class="block border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <h3 class="text-lg font-medium">{p.data.name}</h3>
+              <StatusBadge status={p.data.status} />
+            </div>
+            <p class="text-[var(--color-text-muted)] text-sm mb-3">{p.data.tagline || p.data.description}</p>
+            {p.data.themes.length > 0 && (
+              <div class="flex gap-2 flex-wrap">
+                {p.data.themes.map((t: string) => <ThemeTag theme={t} />)}
+              </div>
+            )}
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {roster.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">All Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {roster.map((p) => (
+          <a href={`/projects/${p.id}/`} class="block border border-[var(--color-border)] rounded-lg p-4 hover:border-[var(--color-accent)] transition-colors">
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="font-medium text-sm">{p.data.name}</h3>
+              <StatusBadge status={p.data.status} />
+            </div>
+            <p class="text-[var(--color-text-muted)] text-xs">{p.data.tagline || p.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {dormant.length > 0 && (
+    <section>
+      <details class="group">
+        <summary class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-4 cursor-pointer hover:text-[var(--color-text)]">
+          Dormant ({dormant.length})
+        </summary>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {dormant.map((p) => (
+            <a href={`/projects/${p.id}/`} class="block border border-[var(--color-border)] rounded-lg p-4 hover:border-[var(--color-accent)] transition-colors opacity-60">
+              <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-medium text-sm">{p.data.name}</h3>
+                <StatusBadge status={p.data.status} />
+              </div>
+              <p class="text-[var(--color-text-muted)] text-xs">{p.data.tagline || p.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </details>
+    </section>
+  )}
+</Base>

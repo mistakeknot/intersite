@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResultBadge from '../../components/ResultBadge.astro';
+import { render } from 'astro:content';
+import { getPublishedExperiments } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const experiments = await getPublishedExperiments();
+  return experiments.map((e) => ({
+    params: { slug: e.id },
+    props: { experiment: e },
+  }));
+}
+
+const { experiment } = Astro.props;
+const { Content } = await render(experiment);
+---
+<Base title={experiment.data.title} description={experiment.data.summary}>
+  <div class="mb-8">
+    <a href="/experiments/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] font-mono">&larr; Experiments</a>
+  </div>
+
+  <header class="mb-8">
+    <div class="flex items-center gap-3 mb-2">
+      <h1 class="text-2xl font-light">{experiment.data.title}</h1>
+      <ResultBadge result={experiment.data.result} />
+    </div>
+    <div class="flex items-center gap-4 text-sm text-[var(--color-text-muted)] font-mono">
+      <time>{experiment.data.date.toISOString().split('T')[0]}</time>
+      {experiment.data.tags.length > 0 && (
+        <div class="flex gap-2">
+          {experiment.data.tags.map((t: string) => <span class="text-xs">#{t}</span>)}
+        </div>
+      )}
+    </div>
+    <p class="text-[var(--color-text-muted)] mt-4">{experiment.data.summary}</p>
+  </header>
+
+  <article class="prose prose-invert prose-zinc max-w-none">
+    <Content />
+  </article>
+</Base>
