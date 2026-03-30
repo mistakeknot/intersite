@@ -1,0 +1,64 @@
+---
+export const prerender = false;
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const experiments = await getCollection('experiments');
+const plugins = await getCollection('plugins');
+
+const byState = (items: any[]) => {
+  const groups: Record<string, any[]> = {};
+  items.forEach(item => {
+    const state = item.data.pipeline_state || 'no_state';
+    (groups[state] ??= []).push(item);
+  });
+  return groups;
+};
+
+const projectsByState = byState(projects);
+const experimentsByState = byState(experiments);
+---
+<Base title="Admin">
+  <h1 class="text-2xl font-light mb-8">Admin</h1>
+
+  <section class="mb-12">
+    <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-4">Projects ({projects.length})</h2>
+    {Object.entries(projectsByState).map(([state, items]) => (
+      <div class="mb-4">
+        <h3 class="text-xs font-mono text-[var(--color-text-muted)] mb-2">{state} ({items.length})</h3>
+        <div class="grid gap-1">
+          {items.map((p: any) => (
+            <div class="flex items-center gap-3 text-sm py-1 px-3 rounded bg-[var(--color-surface)]">
+              <span class="font-mono text-xs w-24 text-[var(--color-text-muted)]">{p.data.status}</span>
+              <span>{p.data.name}</span>
+              {p.data.featured && <span class="text-xs text-[var(--color-accent)]">featured</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-4">Experiments ({experiments.length})</h2>
+    {Object.entries(experimentsByState).map(([state, items]) => (
+      <div class="mb-4">
+        <h3 class="text-xs font-mono text-[var(--color-text-muted)] mb-2">{state} ({items.length})</h3>
+        <div class="grid gap-1">
+          {items.map((e: any) => (
+            <div class="flex items-center gap-3 text-sm py-1 px-3 rounded bg-[var(--color-surface)]">
+              <span class="font-mono text-xs w-24 text-[var(--color-text-muted)]">{e.data.result}</span>
+              <span>{e.data.title}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section>
+    <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-4">Plugins ({plugins.length})</h2>
+    <p class="text-sm text-[var(--color-text-muted)]">{plugins.filter((p: any) => p.data.notable).length} notable, {plugins.length - plugins.filter((p: any) => p.data.notable).length} standard</p>
+  </section>
+</Base>
