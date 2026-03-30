@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ProjectGraph from '../components/ProjectGraph.astro';
 import { getPublishedProjects, getPublishedExperiments, getAllPlugins } from '../lib/content';
 import { getCollection } from 'astro:content';
 
@@ -31,11 +32,8 @@ const experimentCount = allExperimentsDraft.length;
     </div>
   </section>
 
-  <!-- Force-directed project graph goes here -->
-  <section class="mb-20" id="graph-container">
-    <div class="border border-[var(--color-border)] rounded-lg aspect-[16/9] flex items-center justify-center bg-[var(--color-surface)]">
-      <p class="text-[var(--color-text-muted)] text-sm font-mono">project graph</p>
-    </div>
+  <section class="mb-20">
+    <ProjectGraph />
   </section>
 
   {allProjects.length > 0 && (
