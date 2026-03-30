@@ -1,29 +1,47 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getFeaturedProjects, getPublishedProjects, getPublishedExperiments, getAllPlugins } from '../lib/content';
+import { getPublishedProjects, getPublishedExperiments, getAllPlugins } from '../lib/content';
+import { getCollection } from 'astro:content';
 
-const featured = await getFeaturedProjects();
 const allProjects = await getPublishedProjects();
+const allProjectsDraft = await getCollection('projects');
 const experiments = await getPublishedExperiments();
+const allExperimentsDraft = await getCollection('experiments');
 const plugins = await getAllPlugins();
 const latestExperiment = experiments[0];
+
+// Use total counts (including drafts) for the stats — shows the scope of the lab
+const projectCount = allProjectsDraft.length;
+const pluginCount = plugins.length;
+const experimentCount = allExperimentsDraft.length;
 ---
 <Base title="General Systems Ventures">
-  <section class="mb-16">
-    <p class="text-[var(--color-text-muted)] font-mono text-sm mb-2 uppercase tracking-wider">General Systems Ventures</p>
-    <h1 class="text-3xl font-light mb-4 leading-tight">Notes from a frontier of human/machine comparative advantage</h1>
-    <div class="flex gap-6 text-sm text-[var(--color-text-muted)] font-mono">
-      <span>{allProjects.length} projects</span>
-      <span>{plugins.length} plugins</span>
-      <span>{experiments.length} experiments</span>
+  <section class="mb-20 pt-8">
+    <h1 class="text-2xl font-light font-mono tracking-wide mb-6">General Systems Ventures</h1>
+    <div class="flex gap-8 text-sm text-[var(--color-text-muted)] font-mono">
+      <a href="/projects/" class="hover:text-[var(--color-text)] transition-colors">
+        <span class="text-[var(--color-text)] text-lg font-light">{projectCount}</span> projects
+      </a>
+      <a href="/projects/sylveste/plugins/" class="hover:text-[var(--color-text)] transition-colors">
+        <span class="text-[var(--color-text)] text-lg font-light">{pluginCount}</span> plugins
+      </a>
+      <a href="/experiments/" class="hover:text-[var(--color-text)] transition-colors">
+        <span class="text-[var(--color-text)] text-lg font-light">{experimentCount}</span> experiments
+      </a>
     </div>
   </section>
 
-  {featured.length > 0 && (
+  <!-- Force-directed project graph goes here -->
+  <section class="mb-20" id="graph-container">
+    <div class="border border-[var(--color-border)] rounded-lg aspect-[16/9] flex items-center justify-center bg-[var(--color-surface)]">
+      <p class="text-[var(--color-text-muted)] text-sm font-mono">project graph</p>
+    </div>
+  </section>
+
+  {allProjects.length > 0 && (
     <section class="mb-16">
-      <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-6">Featured</h2>
       <div class="grid gap-4">
-        {featured.map((p) => (
+        {allProjects.map((p) => (
           <a href={`/projects/${p.id}/`} class="block border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
             <div class="flex items-center gap-3 mb-2">
               <h3 class="text-lg font-medium">{p.data.name}</h3>
@@ -40,12 +58,6 @@ const latestExperiment = experiments[0];
           </a>
         ))}
       </div>
-    </section>
-  )}
-
-  {featured.length === 0 && allProjects.length === 0 && (
-    <section class="mb-16 border border-[var(--color-border)] rounded-lg p-8 text-center">
-      <p class="text-[var(--color-text-muted)]">Projects are published here as they clear editorial review</p>
     </section>
   )}
 
