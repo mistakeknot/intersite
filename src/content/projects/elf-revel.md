@@ -1,15 +1,14 @@
 ---
 name: Elf Revel
-status: dormant
+status: early
 domain: simulation-games
-themes: ["generative-media"]
-lineage: "Dwarf Fortress depth in the browser — emergent colony simulation without the install barrier"
+themes: ["emergent-systems", "human-machine-interface"]
+lineage: "Aesthetic entropy: a colony sim where the loss condition is creative stagnation"
 featured: false
-tagline: "Browser-based elven colony simulator"
-description: "A browser-based elven colony simulation with Dwarf Fortress-level procedural depth. Elf Revel aimed to bring deep emergent simulation to the browser, generating terrain, societies, and individual histories that create unique stories through systemic interaction rather than scripted events."
-what_was_learned: "Browser performance limits hit hard when simulating hundreds of autonomous agents with individual state machines. The useful takeaway was a set of patterns for hierarchical agent simulation — coarse-grained group behavior with fine-grained individual detail only when observed — that informed Sylveste's approach to multi-agent orchestration at scale."
+tagline: "Reveling elves communally crafting critical hits"
+description: "Elven colony simulator where drama comes from aesthetic conflict, not survival. Elves compose music, form rivalries over taste, and leave permanently when the vibes are off. The human has taste, the AI has hands, the elves have lives."
 pipeline_state: published
 mk_approved_at: "2026-03-30T00:00:00Z"
 ---
 
-Elf Revel attempted to prove that deep emergent simulation could work in a browser tab. The colony sim generated terrain, cultures, and individual agent histories, producing emergent narratives from systemic interactions. The project went dormant when browser performance constraints made the target simulation depth impractical, but the agent hierarchy patterns it developed found a second life in Sylveste's multi-agent orchestration.
+Where Dwarf Fortress finds drama in survival, Elf Revel finds it in aesthetics. Elves compose music, write poetry, and create art across a four-axis space (structure/freedom, tradition/innovation, emotion/intellect, social/personal), form rivalries over taste, split over whether to expand the settlement or preserve the forest, and leave permanently when the vibes are off. The human has taste, the AI has hands, the elves have lives: the loss condition is creative death.

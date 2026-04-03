@@ -3,12 +3,12 @@ name: AgMoDB
 status: shipped
 domain: agent-infrastructure
 themes: ["infrastructure-tooling"]
-lineage: "Model selection needs data — a structured database for comparing AI models across real-world tasks"
+lineage: "An aggregator for AI models and agents across real-world and synthetic tasks"
 featured: false
-tagline: "Agent model comparison database"
-description: "A structured database for comparing AI model capabilities across tasks, benchmarks, and real-world performance. AgMoDB aggregates model metadata, benchmark results, and empirical observations into a queryable format that supports informed model selection for agent pipelines."
+tagline: "Agent/model comparison database"
+description: "The Agent/Model Database aggregates benchmark results and real-world evaluation data into a queryable format organized by task class and cost point, so model selection in agent pipelines is grounded in evidence instead of last week's vibes."
 pipeline_state: published
 mk_approved_at: "2026-03-30T00:00:00Z"
 ---
 
-AgMoDB exists because choosing the right model for a task should be a data-driven decision, not a vibes-based one. It collects and structures model performance data across benchmarks and real-world usage, making it possible to query which model performs best for a specific task class at a given cost point.
+Model and agent selection is typically an exercise in vibes: someone tried a model last week and it worked, so everything routes there now and forever. AgMoDB (Agent/Model Database) replaces that folly with structured performance data queryable by task class and cost point, so "which model should handle this?" has an answer grounded in actual evaluations.
