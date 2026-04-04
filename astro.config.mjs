@@ -7,7 +7,7 @@ import node from '@astrojs/node';
 import clerk from '@clerk/astro';
 
 export default defineConfig({
-  site: 'https://generalsystemsventures.com',
+  site: process.env.INTERSITE_SITE_URL || 'https://example.com',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   vite: { plugins: [tailwindcss()] },

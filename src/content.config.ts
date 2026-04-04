@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+const contentDir = process.env.INTERSITE_CONTENT_DIR;
+
 const pipelineState = z.enum([
   "raw_draft",
   "texturaize_review",
@@ -54,20 +56,20 @@ const pluginSchema = z.object({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: contentDir ? `${contentDir}/projects` : "./src/content/projects" }),
   schema: projectSchema,
 });
 
 const experiments = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
-    base: "./src/content/experiments",
+    base: contentDir ? `${contentDir}/experiments` : "./src/content/experiments",
   }),
   schema: experimentSchema,
 });
 
 const plugins = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/plugins" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: contentDir ? `${contentDir}/plugins` : "./src/content/plugins" }),
   schema: pluginSchema,
 });
 

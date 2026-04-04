@@ -9,11 +9,15 @@ const isBypassRoute = createRouteMatcher([
   "/favicon.ico",
 ]);
 
-const ALLOWED_GITHUB_USERNAMES = ["mistakeknot"];
+const ALLOWED_GITHUB_USERNAMES = (process.env.INTERSITE_AUTH_USERNAMES || "").split(",").filter(Boolean);
+const allowedEmails = (process.env.INTERSITE_AUTH_EMAILS || "").split(",").filter(Boolean);
 
 export const onRequest = clerkMiddleware((auth, context) => {
   if (isBypassRoute(context.request)) return;
   if (!isAdminRoute(context.request)) return;
+
+  // If no allowlists configured, admin is open
+  if (ALLOWED_GITHUB_USERNAMES.length === 0 && allowedEmails.length === 0) return;
 
   const { redirectToSignIn, userId, sessionClaims } = auth();
 
@@ -21,10 +25,8 @@ export const onRequest = clerkMiddleware((auth, context) => {
     return redirectToSignIn();
   }
 
-  // GitHub username allowlist
   const email = (sessionClaims as any)?.email as string | undefined;
-  const allowedEmails = ["mk@generalsystemsventures.com"];
-  if (email && !allowedEmails.includes(email)) {
+  if (allowedEmails.length > 0 && email && !allowedEmails.includes(email)) {
     return new Response("Forbidden", { status: 403 });
   }
 });
