@@ -1,0 +1,211 @@
+{
+  "nodes": [
+    {
+      "id": "sylveste",
+      "name": "Sylveste",
+      "status": "active",
+      "domain": "autonomous-development",
+      "themes": [
+        "autonomous-agents",
+        "infrastructure-tooling"
+      ],
+      "featured": true
+    },
+    {
+      "id": "texturaize",
+      "name": "texturaize",
+      "status": "active",
+      "domain": "editorial-tooling",
+      "themes": [
+        "human-machine-interface"
+      ],
+      "featured": true
+    },
+    {
+      "id": "garden-salon",
+      "name": "garden-salon",
+      "status": "active",
+      "domain": "collaborative-intelligence",
+      "themes": [
+        "human-machine-interface",
+        "emergent-systems"
+      ],
+      "featured": true
+    },
+    {
+      "id": "pattern-royale",
+      "name": "pattern-royale",
+      "status": "shipped",
+      "domain": "generative-games",
+      "themes": [
+        "emergent-systems",
+        "generative-media"
+      ],
+      "featured": true
+    },
+    {
+      "id": "typhon",
+      "name": "Typhon",
+      "status": "active",
+      "domain": "prediction-markets",
+      "themes": [
+        "infrastructure-tooling"
+      ]
+    },
+    {
+      "id": "horza",
+      "name": "Horza",
+      "status": "active",
+      "domain": "generative-media",
+      "themes": [
+        "autonomous-agents"
+      ]
+    },
+    {
+      "id": "duellm",
+      "name": "duellm",
+      "status": "early",
+      "domain": "competitive-ai",
+      "themes": [
+        "autonomous-agents",
+        "human-machine-interface"
+      ]
+    },
+    {
+      "id": "nartopo",
+      "name": "Nartopo",
+      "status": "early",
+      "domain": "narrative-generation",
+      "themes": [
+        "generative-media"
+      ]
+    },
+    {
+      "id": "enozo",
+      "name": "Enozo",
+      "status": "early",
+      "domain": "audio-perception",
+      "themes": [
+        "human-machine-interface"
+      ]
+    },
+    {
+      "id": "agmodb",
+      "name": "agmodb",
+      "status": "shipped",
+      "domain": "model-intelligence",
+      "themes": [
+        "infrastructure-tooling"
+      ]
+    },
+    {
+      "id": "auraken",
+      "name": "Auraken",
+      "status": "early",
+      "domain": "recommendation",
+      "themes": [
+        "generative-media"
+      ]
+    },
+    {
+      "id": "lowbeer",
+      "name": "Lowbeer",
+      "status": "early",
+      "domain": "system-intelligence",
+      "themes": [
+        "autonomous-agents"
+      ]
+    },
+    {
+      "id": "shadow-work",
+      "name": "shadow-work",
+      "status": "dormant",
+      "domain": "agent-interaction",
+      "themes": [
+        "human-machine-interface"
+      ]
+    },
+    {
+      "id": "elf-revel",
+      "name": "elf-revel",
+      "status": "dormant",
+      "domain": "emergent-simulation",
+      "themes": [
+        "generative-media"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "sylveste",
+      "target": "texturaize",
+      "type": "lineage",
+      "label": "editorial pipeline"
+    },
+    {
+      "source": "sylveste",
+      "target": "garden-salon",
+      "type": "lineage",
+      "label": "collaborative workspace"
+    },
+    {
+      "source": "sylveste",
+      "target": "agmodb",
+      "type": "lineage",
+      "label": "model intelligence"
+    },
+    {
+      "source": "pattern-royale",
+      "target": "elf-revel",
+      "type": "theme",
+      "label": "emergent behavior"
+    },
+    {
+      "source": "pattern-royale",
+      "target": "duellm",
+      "type": "theme",
+      "label": "competitive dynamics"
+    },
+    {
+      "source": "duellm",
+      "target": "garden-salon",
+      "type": "theme",
+      "label": "multi-agent interaction"
+    },
+    {
+      "source": "nartopo",
+      "target": "auraken",
+      "type": "theme",
+      "label": "generative output"
+    },
+    {
+      "source": "texturaize",
+      "target": "enozo",
+      "type": "theme",
+      "label": "human perception"
+    },
+    {
+      "source": "lowbeer",
+      "target": "sylveste",
+      "type": "lineage",
+      "label": "system oversight"
+    },
+    {
+      "source": "shadow-work",
+      "target": "sylveste",
+      "type": "lineage",
+      "label": "agent configuration"
+    },
+    {
+      "source": "horza",
+      "target": "auraken",
+      "type": "theme",
+      "label": "generative media"
+    }
+  ],
+  "lenses": {
+    "domain": "Color by domain area",
+    "theme": "Color by primary theme",
+    "status": "Color by project status"
+  }
+}
