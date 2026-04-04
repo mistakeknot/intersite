@@ -1,6 +1,6 @@
 ---
 name: Pattern Royale
-status: shipped
+status: early
 domain: generative-games
 themes: ["emergent-systems", "generative-media"]
 lineage: "Emergent competition — cellular automata as a game mechanic, not just a screensaver"

@@ -1,6 +1,6 @@
 ---
 name: Garden Salon
-status: active
+status: early
 domain: collaborative-intelligence
 themes: ["human-machine-interface", "emergent-systems"]
 lineage: "Thinking together — a multiplayer workspace where agents are participants, not tools"

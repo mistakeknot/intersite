@@ -1,6 +1,6 @@
 ---
 name: Horza
-status: active
+status: early
 domain: agent-intelligence
 themes: ["autonomous-agents"]
 lineage: "Visual identity for AI-generated artifacts — FLUX cover photos and LoRA fine-tuning"

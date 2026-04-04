@@ -1,6 +1,6 @@
 ---
 name: Shadow Work
-status: dormant
+status: active
 domain: agent-configuration
 themes: ["human-machine-interface"]
 lineage: "The invisible labor of configuring AI tools — making the setup itself a game worth playing"
