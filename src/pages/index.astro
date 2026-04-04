@@ -1,27 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import ProjectGraph from '../components/ProjectGraph.astro';
-import { getPublishedProjects, getPublishedExperiments, getAllPlugins } from '../lib/content';
+import { getPublishedProjects, getPublishedExperiments } from '../lib/content';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getPublishedProjects();
 const allProjectsDraft = await getCollection('projects');
 const experiments = await getPublishedExperiments();
 const allExperimentsDraft = await getCollection('experiments');
-const plugins = await getAllPlugins();
 const latestExperiment = experiments[0];
 
 const stats = {
   projects: allProjectsDraft.length,
-  plugins: plugins.length,
+  plugins: 0,
   experiments: allExperimentsDraft.length,
 };
----
-<Base title="General Systems Ventures" stats={stats}>
-  <section class="mb-16">
-    <ProjectGraph />
-  </section>
 
+const siteName = import.meta.env.INTERSITE_SITE_NAME || 'Portfolio';
+---
+<Base title={siteName} stats={stats}>
   {allProjects.length > 0 && (
     <section class="mb-16">
       <div class="grid gap-4">
